@@ -1,9 +1,12 @@
 package com.wsw.servlet;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 
 public class HelloServlet implements Servlet {
     public HelloServlet() {
@@ -45,7 +48,7 @@ public class HelloServlet implements Servlet {
         if ("GET".equals(method)) {
             doGet();
         } else if ("POST".equals(method)){
-            doPost();
+            doPost(servletRequest, servletResponse);
         }
     }
 
@@ -60,7 +63,15 @@ public class HelloServlet implements Servlet {
     /**
      * 做post请求的操作
      */
-    public void doPost() {
+    public void doPost(ServletRequest req, ServletResponse resp) throws IOException {
+        resp.setCharacterEncoding("GBK");
+        req.setCharacterEncoding("utf-8");
+        String name = req.getParameter("username");
+        String pwd = req.getParameter("password");
+        if (name.equals("Alan") && pwd.equals("0420"))
+            resp.getWriter().write("<h1>欢迎您登录</h1>");
+        else
+            resp.getWriter().write("<h1>您登录失败，请重新输入</h1>");
         System.out.println("post请求");
         System.out.println("post请求");
     }

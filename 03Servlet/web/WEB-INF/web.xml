@@ -33,6 +33,20 @@
             <param-value>jdbc:mysql://localhost:3306/test</param-value>
         </init-param>
     </servlet>
+
+    <!-- servlet标签给Tomcat配置Servlet程序 -->
+    <servlet>
+        <servlet-name>HelloServlet2</servlet-name>
+        <servlet-class>com.wsw.servlet.HelloServlet2</servlet-class>
+        <!--init-param是初始化参数-->
+        <init-param>
+            <!--参数名-->
+            <param-name>username</param-name>
+            <!--参数值-->
+            <param-value>root</param-value>
+        </init-param>
+    </servlet>
+
     <!--servlet-mapping标签给servlet程序配置访问地址-->
     <servlet-mapping>
         <!-- servlet-name标签的作用是告诉服务器，我当前配置的地址
@@ -42,5 +56,34 @@
          /：斜杆在服务器解析的时候，表示地址为：http://ip:port/工程路径
          /hello：表示地址为：http://ip:port/工程路径/hello -->
         <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+    <!--servlet-mapping标签给servlet程序配置访问地址-->
+    <servlet-mapping>
+        <servlet-name>HelloServlet2</servlet-name>
+        <url-pattern>/hello2</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ContextServlet</servlet-name>
+        <servlet-class>com.atguigu.servlet.ContextServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ContextServlet1</servlet-name>
+        <servlet-class>com.atguigu.servlet.ContextServlet1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ContextServlet2</servlet-name>
+        <servlet-class>com.atguigu.servlet.ContextServlet2</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ContextServlet1</servlet-name>
+        <url-pattern>/context1</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ContextServlet2</servlet-name>
+        <url-pattern>/context2</url-pattern>
     </servlet-mapping>
 </web-app>

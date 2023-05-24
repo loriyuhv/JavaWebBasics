@@ -2,9 +2,31 @@
 
 **必装工具**
 
-- JDK16
+- JDK8
 - Tomcat9
 - IntelliJ IDEA ULtimate
+
+## 准备工作
+
+### 1. idea配置JDK8
+
+**首先打开idea**
+
+1）点击File -->Project Structure；
+
+![001](.\images\ReadyWork\ConfigureJDK\001.png)
+
+2）点击左侧标签页SDKs选项，再点击左上角“+”，选择Add JDK；
+
+![001](.\images\ReadyWork\ConfigureJDK\002.png)
+
+3）在弹出框选择JDK安装路径，点击OK即可配置成功。
+
+![001](.\images\ReadyWork\ConfigureJDK\003.png)
+
+![001](.\images\ReadyWork\ConfigureJDK\004.png)
+
+
 
 ## 一、在IDEA新建项目
 
@@ -295,3 +317,25 @@ public class LoginServlet extends HttpServlet {
 **失败**
 
 ![001](.\images\useServlet\013.png)
+
+
+
+# 添加模块
+
+## 1、添加
+
+### 1.1 项目结构图
+
+![001](.\images\addModules\001.png)
+
+### 1.2 添加
+
+![001](.\images\addModules\002.png)
+
+![001](.\images\addModules\003.png)
+
+![001](.\images\addModules\004.png)
+
+### 1.3 项目结构图（完成）
+
+![001](.\images\addModules\005.png)

@@ -21,6 +21,7 @@
         3. 不能出现同名变量
         4. 运行效率高一点点。耦合性较高，不够灵活。
 --%>
+<%@include file="includes/a.jsp"%>
 <%@include file="04-header.jsp"%>
 <h2>主体内容</h2>
 <%@include file="04-footer.jsp"%>

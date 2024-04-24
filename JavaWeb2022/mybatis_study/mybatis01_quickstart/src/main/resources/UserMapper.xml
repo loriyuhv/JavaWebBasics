@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：名称空间 可以随便写一个名字 -->
+<mapper namespace="test">
+    <!--id是唯一标识，resultType对应POJO类-->
+    <select id="selectAll" resultType="com.wsw.pojo.User">
+        select * from tb_user;
+    </select>
+</mapper>

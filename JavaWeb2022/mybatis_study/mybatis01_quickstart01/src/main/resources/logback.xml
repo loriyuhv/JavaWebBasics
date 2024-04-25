@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!-- <property name="ENCODING" value="UTF-8"/> -->
     <!--
         Console ：表示当前的日志信息是可以输出到控制台的。
     -->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+
         <!--输出流对象 默认System.out 改为 System.err -->
         <target>System.out</target>
         <encoder>
+            <charset>UTF-8</charset>
             <!--
                 格式化输出：%d表示日期 %thread表示线程名
                 %-5level：级别从左显示5个字符宽度

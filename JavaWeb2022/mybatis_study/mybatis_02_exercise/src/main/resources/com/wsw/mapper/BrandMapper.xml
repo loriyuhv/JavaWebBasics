@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wsw.mapper.BrandMapper">
+    <!-- 通过id查询一条商品信息 -->
+    <!-- 会出bug：brandName=null 和 companyName=null
+        原因：sql表字段名称与java pojo对象属性名称不一致
+        brand_name  <===> brandName
+     -->
+    <!-- <select id="selectById" resultType="brand"> -->
+    <!--     select * from tb_brand where id = #{id}; -->
+    <!-- </select> -->
+
+    <!-- 解决方式一：取别名 -->
+    <!-- <sql id="brand_column"> -->
+    <!--     id, brand_name as brandName, company_name as companyName, -->
+    <!--     ordered, description, status -->
+    <!-- </sql> -->
+    <!-- <select id="selectById" resultType="brand"> -->
+    <!--     select -->
+    <!--     <include refid="brand_column"/> -->
+    <!--     from tb_brand where id = #{id}; -->
+    <!-- </select> -->
+
+    <!--
+        id：完成主键字段的映射
+            column：表的列名
+            property：实体类的属性名
+        result：完成一般字段的映射
+            column：表的列名
+            property：实体类的属性名
+     -->
+    <resultMap id="brandResultMap" type="brand">
+        <result column="brand_name" property="brandName"/>
+        <result column="company_name" property="companyName"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="brandResultMap">
+        select * from tb_brand where id = #{id};
+    </select>
+</mapper>

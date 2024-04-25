@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.wsw.mapper.BrandMapper">
-    <!-- 通过id查询一条商品信息 -->
+    <!-- 查看详情：通过id查询一条商品详情信息 -->
     <!-- 会出bug：brandName=null 和 companyName=null
         原因：sql表字段名称与java pojo对象属性名称不一致
         brand_name  <===> brandName
@@ -24,7 +24,7 @@
     <!--     from tb_brand where id = #{id}; -->
     <!-- </select> -->
 
-    <!--
+    <!-- 解决方式二：使用resultMap
         id：完成主键字段的映射
             column：表的列名
             property：实体类的属性名
@@ -40,4 +40,171 @@
     <select id="selectById" resultMap="brandResultMap">
         select * from tb_brand where id = #{id};
     </select>
+
+    <!-- 查询商品订单数量小于等于50的商品信息 -->
+    <!-- SQL语句中特殊字段处理
+        1. 转义字符：&lt;
+        2. !CDATA
+     -->
+    <!-- 方式一：转义字符：&lt; -->
+    <!-- <select id="selectByConditionalOrdered" resultMap="brandResultMap"> -->
+    <!--     select * from tb_brand where ordered &lt;= 50; -->
+    <!-- </select> -->
+    <!-- 方式二：<![CDATA[]]> -->
+    <select id="selectByConditionalOrdered" resultMap="brandResultMap">
+        select * from tb_brand
+                 where ordered
+                           <![CDATA[
+                           <=
+                           ]]>
+                        50;
+    </select>
+
+    <!-- 多条件查询——静态查询 -->
+
+    <!-- 传递多个参数，方式一：默认 -->
+    <!-- <select id="selectByCondition" resultMap="brandResultMap"> -->
+    <!--     select * from tb_brand -->
+    <!--              where status = #{arg0} -->
+    <!--     and company_name like #{arg1} -->
+    <!--     and brand_name like #{arg2} -->
+    <!--     ; -->
+    <!-- </select> -->
+
+    <!-- 方式二：@Param -->
+    <!-- <select id="selectByCondition" resultMap="brandResultMap"> -->
+    <!--     select * from tb_brand -->
+    <!--     where status = #{status} -->
+    <!--       and company_name like #{companyName} -->
+    <!--       and brand_name like #{brandName} -->
+    <!--     ; -->
+    <!-- </select> -->
+
+    <!-- 方式三：实体对象-->
+    <select id="selectByCondition" resultMap="brandResultMap">
+        select * from tb_brand
+        where status = #{status}
+          and company_name like #{companyName}
+          and brand_name like #{brandName}
+        ;
+    </select>
+
+    <!-- 多条件查询——动态查询：动态SQL
+        if
+        choose(when,otherwise)
+        trim(where,set)
+        foreach
+     -->
+    <!-- 问题：如果钱前面条件不成立，就会出现 where and brand_name like.. -->
+    <!-- 解决方式一：用 1 = 1 -->
+    <!-- <select id="selectByConditionDynamic" resultMap="brandResultMap"> -->
+    <!--     select * from tb_brand -->
+    <!--     where 1 = 1 -->
+    <!--         <if test="status != null"> -->
+    <!--             and status = #{status} -->
+    <!--         </if> -->
+    <!--         <if test="companyName != null and companyName != '' "> -->
+    <!--             and company_name like #{companyName} -->
+    <!--         </if> -->
+    <!--         <if test="brandName != null and brandName != '' "> -->
+    <!--             and brand_name like #{brandName} -->
+    <!--         </if> -->
+    <!--       ; -->
+    <!-- </select> -->
+
+    <!-- 解决方式二：<where> -->
+    <select id="selectByConditionDynamic" resultMap="brandResultMap">
+        select * from tb_brand
+        <where>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="companyName != null and companyName != '' ">
+                and company_name like #{companyName}
+            </if>
+            <if test="brandName != null and brandName != '' ">
+                and brand_name like #{brandName}
+            </if>
+        </where>
+        ;
+    </select>
+
+    <!-- 单条件查询——动态SQL
+        choose(when,otherwise)
+        choose ===> switch
+        when   ===> case
+        otherwise ===> default
+     -->
+    <select id="selectByConditionSingle" resultMap="brandResultMap">
+        select * from tb_brand
+        <where>
+            <choose>
+                <when test="status != null">
+                    status = #{status}
+                </when>
+                <when test="companyName != null and companyName != '' ">
+                    company_name like #{companyName}
+                </when>
+                <when test="brandName != null and brandName != '' ">
+                    brand_name like #{brandName}
+                </when>
+                <otherwise>
+                    1 = 1
+                </otherwise>
+            </choose>
+        </where>
+        ;
+    </select>
+
+    <!-- 添加数据 -->
+    <insert id="add">
+        insert into tb_brand (brand_name, company_name, ordered, description, status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+    </insert>
+
+    <!-- 添加数据，主键返回 -->
+    <insert id="addOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_brand (brand_name, company_name, ordered, description, status)
+        values (#{brandName},#{companyName},#{ordered},#{description},#{status});
+    </insert>
+
+    <!-- 修改信息 -->
+    <update id="update">
+        update tb_brand
+        <set>
+            <if test="brandName != null and brandName != '' ">
+                brand_name = #{brandName},
+            </if>
+            <if test="companyName != null and companyName != '' ">
+                company_name = #{companyName},
+            </if>
+            <if test="ordered != null">
+                ordered = #{ordered},
+            </if>
+            <if test="description != null and description != '' ">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+        </set>
+        where id = #{id};
+    </update>
+
+    <!-- 删除一行数据 -->
+    <delete id="deleteById">
+        delete
+        from tb_brand
+        where id = #{id};
+    </delete>
+
+    <delete id="deleteByIds">
+        delete
+        from tb_brand
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        ;
+    </delete>
 </mapper>

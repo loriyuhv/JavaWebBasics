@@ -1,5 +1,7 @@
 package com.wsw.pojo;
 
+import java.io.Serializable;
+
 /**
  * 品牌
  *
@@ -8,7 +10,7 @@ package com.wsw.pojo;
  * 在实体类中，基本数据类型建议使用其对应的包装类型
  */
 
-public class Brand {
+public class Brand implements Serializable {
     // id 主键
     private Integer id;
     // 品牌名称

@@ -381,4 +381,25 @@ public class BrandMapperTest {
         // 5. 释放资源
         sqlSession.close();
     }
+
+
+    /**
+     * @description 根据id批量删除数据
+     */
+    @Test
+    public void test() throws IOException {
+        // 1. 获取SqlSessionFactory对象
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+
+
+        // 2. 获取SqlSession对象
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+
+        // 3. 获取Mapper代理对象
+        BrandMapper brandMapper = sqlSession.getMapper(BrandMapper.class);
+
+        // 5. 释放资源
+        sqlSession.close();
+    }
 }

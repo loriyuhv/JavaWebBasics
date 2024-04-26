@@ -6,9 +6,9 @@
 <!-- namespace：名称空间 -->
 <mapper namespace="com.wsw.mapper.UserMapper">
 
-    <select id="selectAll" resultType="User">
-        select * from tb_user;
-    </select>
+    <!-- <select id="selectAll" resultType="User"> -->
+    <!--     select * from tb_user; -->
+    <!-- </select> -->
 
     <!-- <select id="select" resultType="user"> -->
     <!--     select * -->

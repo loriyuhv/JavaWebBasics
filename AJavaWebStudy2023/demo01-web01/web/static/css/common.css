@@ -1,0 +1,36 @@
+:root {
+    --bg-start: #a18cd1;
+    --bg-end:   #fbc2eb;
+    --card-bg:  rgba(255,255,255,.25);
+    --text:     #2c2c2c;
+    --accent:   #6c5ce7;
+    --radius:   14px;
+    --blur:     16px;
+    --shadow:   0 8px 32px rgba(31,38,135,.2);
+    --font:     "Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+}
+[data-theme="dark"]{
+    --bg-start:#232526;
+    --bg-end:#414345;
+    --card-bg:rgba(0,0,0,.35);
+    --text:#f1f1f1;
+    --accent:#a29bfe;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    height:100vh;font-family:var(--font);display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,var(--bg-start),var(--bg-end));background-size:400% 400%;
+    animation:bgMove 15s ease infinite;color:var(--text);transition:background .5s;
+}
+@keyframes bgMove{
+    0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}
+}
+.btn{
+    display:inline-block;padding:12px 28px;border:none;border-radius:var(--radius);
+    background:var(--accent);color:#fff;font-size:16px;cursor:pointer;text-decoration:none;
+    transition:filter .3s,transform .2s;
+}
+.btn:hover{filter:brightness(1.1)}
+.btn:active{transform:scale(.97)}
+.btn.secondary{background:#888}
+.theme-toggle{position:absolute;top:18px;right:24px;font-size:24px;cursor:pointer}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>控制台</title>
+    <link rel="stylesheet" href="static/css/common.css"/>
+    <link rel="stylesheet" href="static/css/dashboard.css"/>
+</head>
+<body>
+<div class="theme-toggle" id="themeToggle" title="切换主题">🌙</div>
+
+<header>
+    <h1>欢迎，<span id="userName">用户</span></h1>
+    <button id="logoutBtn" class="btn secondary">退出登录</button>
+</header>
+
+<main>
+    <section>
+        <h2>我的资料</h2>
+        <p>用户名：<span id="uname"></span></p>
+        <p>邮箱：<span id="uemail"></span></p>
+    </section>
+
+    <section>
+        <h2>快速操作</h2>
+        <button class="btn">修改密码</button>
+        <button class="btn secondary" id="delBtn">删除账号</button>
+    </section>
+</main>
+
+<script type="module">
+    /* 路由守卫 */
+    const token = localStorage.getItem('token');
+    const user  = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!token || !user.username) location.href = 'login.html';
+
+    /* 渲染用户信息 */
+    document.getElementById('userName').textContent = user.username;
+    document.getElementById('uname').textContent    = user.username;
+    document.getElementById('uemail').textContent   = user.email || '未填写';
+
+    /* 退出登录 */
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.href = 'login.html';
+    });
+
+    /* 主题切换（同 login.js 逻辑） */
+    const html   = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const saved  = localStorage.getItem('theme');
+    if (saved === 'dark') {
+        html.setAttribute('data-theme', 'dark');
+        toggle.textContent = '☀️';
+    }
+    toggle.addEventListener('click', () => {
+        const isDark = html.hasAttribute('data-theme');
+        if (isDark) {
+            html.removeAttribute('data-theme');
+            toggle.textContent = '🌙';
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            toggle.textContent = '☀️';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+</script>
+</body>
+</html>
